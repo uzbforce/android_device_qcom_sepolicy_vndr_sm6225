@@ -130,7 +130,11 @@ genfscon sysfs /kernel/boot_cdsp/boot                                   u:object
 genfscon sysfs /devices/virtual/cvp/cvp/boot                            u:object_r:vendor_sysfs_boot_cvp:s0
 genfscon sysfs /kernel/boot_slpi                                        u:object_r:vendor_sysfs_slpi:s0
 genfscon sysfs /devices/soc/c1b7000.i2c/i2c-9/9-0008                    u:object_r:vendor_sysfs_easel:s0
-genfscon sysfs /class/typec                                             u:object_r:vendor_sysfs_usb_c:s0
+# /class/typec is assigned to the platform's sysfs_typec type since board API
+# 202604 (system/sepolicy/compat/plat_sepolicy_genfs_202604.cil). A vendor
+# rule for the same path makes secilc abort with "Found conflicting genfscon
+# rules", so the type is left to the platform. The USB HAL keeps its access
+# through hal_usb, which the platform already grants on sysfs_typec.
 genfscon sysfs /class/typec/usbc0                                       u:object_r:vendor_sysfs_usb_c:s0
 genfscon sysfs /devices/soc/a800000.ssusb/a800000.dwc3/xhci-hcd.0.auto/usb1 u:object_r:vendor_sysfs_usb_device:s0
 genfscon sysfs /devices/soc/a800000.ssusb/a800000.dwc3/xhci-hcd.0.auto/usb2 u:object_r:vendor_sysfs_usb_device:s0
